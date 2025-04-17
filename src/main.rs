@@ -23,7 +23,16 @@ async fn main() {
                 .remove("x-codeSamples");
             if let Some(responses) = method_schema.get_mut("responses") {
                 for (code, code_schema) in responses.as_object_mut().unwrap().iter_mut() {
-                    code_schema.as_object_mut().unwrap().remove("headers");
+                    let header_map = code_schema
+                        .as_object_mut()
+                        .unwrap()
+                        .get_mut("headers")
+                        .unwrap()
+                        .as_object_mut()
+                        .unwrap();
+                    header_map.retain(|header_key, header_value| {
+                        header_key == "X-SECURITY-TOKEN" || header_key == "CST"
+                    });
                 }
             };
 

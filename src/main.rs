@@ -3,9 +3,10 @@ use serde_json::Value;
 
 #[tokio::main]
 async fn main() {
+    dotenvy::dotenv().expect("Failed to load env");
     let openai_client = openai::Client::from_env();
     let openapi_fixer = openai_client
-        .agent(openai::O3_MINI)
+        .agent("o4-mini")
         .preamble(&"You're given a bad written openapi schema that uses examples instead of properly defining the schema. Spit the correct part without extra fuff. Just rewrite the given part not add anithing else around")
         .build();
 

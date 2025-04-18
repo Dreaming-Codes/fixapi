@@ -54,8 +54,8 @@ async fn main() {
                 .prompt(serde_json::to_string_pretty(method_schema).unwrap())
                 .await
                 .unwrap();
-            fixed_schema = fixed_schema.replace("```json`", "");
-            fixed_schema = fixed_schema.replace("````", "");
+            fixed_schema = fixed_schema.replace("```json", "");
+            fixed_schema = fixed_schema.replace("```", "");
             *method_schema = serde_json::from_str(&fixed_schema)
                 .map_err(|err| {
                     eprintln!("error during parsing {:?}", fixed_schema);

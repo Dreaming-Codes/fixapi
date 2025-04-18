@@ -21,6 +21,18 @@ async fn main() {
                 .as_object_mut()
                 .unwrap()
                 .remove("x-codeSamples");
+            if let Some(parameters) = method_schema.get_mut("parameters") {
+                parameters.as_array_mut().unwrap().retain(|param| {
+                    let param_name = param
+                        .as_object()
+                        .unwrap()
+                        .get("name")
+                        .unwrap()
+                        .as_str()
+                        .unwrap();
+                    !(param_name == "CST" || param_name == "X-SECURITY-TOKEN")
+                });
+            };
             if let Some(responses) = method_schema.get_mut("responses") {
                 for (code, code_schema) in responses.as_object_mut().unwrap().iter_mut() {
                     let header_map = code_schema

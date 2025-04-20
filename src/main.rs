@@ -6,8 +6,8 @@ async fn main() {
     dotenvy::dotenv().expect("Failed to load env");
     let openai_client = openai::Client::from_env();
     let openapi_fixer = openai_client
-        .agent("o4-mini")
-        .preamble(&"You're given a bad written openapi schema that uses examples instead of properly defining the schema. Spit the correct part without extra fuff. Just rewrite the given part not add anithing else around wrapped in {}")
+        .agent("o3-mini")
+        .preamble(&"You're given a bad written openapi schema that uses examples instead of properly defining the schema. Spit the correct part without extra fuff. Use the pattern syntax to declare date and time fields when those are non standard. Just rewrite the given part not add anithing else around wrapped in {}")
         .build();
 
     let schema_file = std::fs::read_to_string(&"capital.json").unwrap();
